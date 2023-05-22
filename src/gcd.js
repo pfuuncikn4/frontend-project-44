@@ -9,6 +9,7 @@ export default function Main() {
 
   let result = 1;
   while (result <= 3) {
+    // eslint-disable-next-line no-inner-declarations
     function gcd(a, b) {
       if (b === 0) {
         return a;
