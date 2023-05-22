@@ -1,25 +1,48 @@
 #!/usr/bin/env node
 import readlineSync from 'readline-sync';
 
-// eslint-disable-next-line consistent-return
-export default function isEven() {
-  console.log('Welcome to the Brain Games!');
-  const name = readlineSync.question('May I have your name? ');
-  console.log(`Hello, ${name}`);
-  console.log('Answer "yes" if the number is even, otherwise answer "no".');
-  let i = 0;
-  while (i < 3) {
-    const random = Math.floor(Math.random() * 100) + 1;
-    console.log(`Question: ${random}`);
-    const nameAnswer = readlineSync.question('Your answer: ');
-    let reversename = '';
-    if (nameAnswer === 'yes') { reversename = 'no'; } else if (nameAnswer === 'no') { reversename = 'yes'; }
-
-    // eslint-disable-next-line no-unused-expressions, no-sequences, brace-style
-    if (random % 2 === 0 && nameAnswer === 'yes') { i += 1, console.log('Correct!'); }
-    // eslint-disable-next-line no-unused-expressions, no-sequences
-    else if (random % 2 !== 0 && nameAnswer === 'no') { i += 1, console.log('Correct!'); } 
-    else { return console.log(`Answer "${nameAnswer}" if the number is even, otherwise answer "${reversename}".`); }
+function evenOrNot(numb) {
+  const number = numb;
+  if (Math.floor(number / 2) === number / 2) {
+    // Чётное
+    return true;
   }
+  // Нечётное
+  return false;
+}
+
+// eslint-disable-next-line consistent-return
+export default function even() {
+  console.log('Welcome to the Brain Games!');
+  const name = readlineSync.question('May I have your name?: ');
+  console.log(`Hello, ${name}!`);
+  console.log('Answer "yes" if the number is even, otherwise answer "no".');
+  const minNum = 0;
+  const maxNum = 100;
+
+  let rounds = 0;
+  while (rounds <= 2) {
+    let roundAnswer;
+
+    const randomNumbers = `${Math.floor(Math.random() * (maxNum - minNum)) + minNum}`;
+
+    console.log(`Question: ${randomNumbers}`);
+    const userAnswer = readlineSync.question('Your answer:  ');
+
+    if (evenOrNot(randomNumbers) === true && userAnswer === 'yes') {
+      roundAnswer = ('Correct!');
+    } else if (evenOrNot(randomNumbers) === false && userAnswer === 'no') {
+      roundAnswer = ('Correct!');
+    } else {
+      console.log(`'${userAnswer}' is wrong answer ;(. Correct answer was '${Number(randomNumbers) % 2 === 0 ? 'yes' : 'no'}'.`);
+      return console.log(`Let's try again, ${name}!`);
+    }
+
+    if (roundAnswer !== 'Correct!') { rounds = 0; }
+
+    console.log(roundAnswer);
+    rounds += 1;
+  }
+
   console.log(`Congratulations, ${name}!`);
 }
